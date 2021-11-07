@@ -1,4 +1,6 @@
 import s from './ContactsList.module.css';
+import { connect } from 'react-redux';
+import action from '../../redux/action';
 import PropTypes from 'prop-types';
 
 const ContactsList = ({ contacts, handleDelete }) => {
@@ -21,7 +23,23 @@ const ContactsList = ({ contacts, handleDelete }) => {
   );
 };
 
-export default ContactsList;
+const handleFilter = (allContacts, filter) => {
+  const normalizedFilter = filter.toLowerCase();
+
+  return allContacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizedFilter),
+  );
+};
+
+const mapStateToProps = state => ({
+  contacts: handleFilter(state.contacts.items, state.contacts.filter),
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleDelete: e => dispatch(action.handleDelete(e.target.id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
 
 ContactsList.propTypes = {
   contacts: PropTypes.array.isRequired,

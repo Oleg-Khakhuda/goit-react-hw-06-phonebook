@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import action from '../../redux/action';
+import { connect } from 'react-redux';
 import s from './Filter.module.css';
 
-const Filter = ({ changeFilter }) => {
+const Filter = ({ value, changeFilter }) => {
   const inputFilterId = uuidv4();
 
   return (
@@ -13,6 +15,7 @@ const Filter = ({ changeFilter }) => {
       <input
         className={s.input}
         type="text"
+        value={value}
         id={inputFilterId}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         onChange={changeFilter}
@@ -21,7 +24,15 @@ const Filter = ({ changeFilter }) => {
   );
 };
 
-export default Filter;
+const mapStateToProps = state => ({
+  value: state.contacts.filter,
+});
+
+const mapDispatchToProps = dispatch => ({
+  changeFilter: e => dispatch(action.changeFilter(e.target.value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
 
 Filter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
