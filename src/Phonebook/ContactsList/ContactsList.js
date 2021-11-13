@@ -1,9 +1,12 @@
 import s from './ContactsList.module.css';
-import { connect } from 'react-redux';
-import action from '../../redux/action';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import action from '../../redux/contacts/action';
 import PropTypes from 'prop-types';
 
 const ContactsList = ({ contacts, handleDelete }) => {
+  // const contacts = useSelector(handleFilter(state.items, state.filter));
+  // const filter = useSelector(state => state.filter);
+
   return (
     <ul className={s.list}>
       {contacts.map(contact => (
@@ -25,14 +28,13 @@ const ContactsList = ({ contacts, handleDelete }) => {
 
 const handleFilter = (allContacts, filter) => {
   const normalizedFilter = filter.toLowerCase();
-
   return allContacts.filter(contact =>
     contact.name.toLowerCase().includes(normalizedFilter),
   );
 };
 
 const mapStateToProps = state => ({
-  contacts: handleFilter(state.contacts.items, state.contacts.filter),
+  contacts: handleFilter(state.items, state.filter),
 });
 
 const mapDispatchToProps = dispatch => ({
