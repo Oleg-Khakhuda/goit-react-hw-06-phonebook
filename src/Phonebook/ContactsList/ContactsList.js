@@ -1,12 +1,9 @@
 import s from './ContactsList.module.css';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import action from '../../redux/contacts/action';
 import PropTypes from 'prop-types';
 
 const ContactsList = ({ contacts, handleDelete }) => {
-  // const contacts = useSelector(handleFilter(state.items, state.filter));
-  // const filter = useSelector(state => state.filter);
-
   return (
     <ul className={s.list}>
       {contacts.map(contact => (
